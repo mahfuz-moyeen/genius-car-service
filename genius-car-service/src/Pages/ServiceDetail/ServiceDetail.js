@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import useServiceDetails from '../../hook/useServiceDetails';
 
 const ServiceDetail = () => {
     const { serviceId } = useParams();
-    const [service, setService] = useState([]);
-
-    useEffect(() => {
-        fetch(`http://localhost:5000/service/${serviceId}`)
-            .then(res => res.json())
-            .then(data => setService(data))
-    }, [])
+    const [service] = useServiceDetails(serviceId);
 
     const { name, img, price, description } = service;
     return (
@@ -25,7 +20,7 @@ const ServiceDetail = () => {
                     </div>
                 </div>
             </div>
-            <Link to="/checkout">
+            <Link to={`/checkout/${serviceId}`}>
                 <button className='btn btn-primary d-block mx-auto'>Proceed Checkout</button>
             </Link>
         </div>
